@@ -1,6 +1,6 @@
 # AI Content Factory
 
-A minimal Python system to generate social media content with OpenAI GPT and DALL·E 3. Images fall back to Fal.ai and videos can be generated with Veo when available.
+A minimal Python system that generates social media content with OpenAI GPT and DALL·E 3. Fallbacks to Fal.ai or Veo ensure reliable imagery and video.
 
 ## Quick Start
 
