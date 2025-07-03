@@ -18,6 +18,11 @@ A minimal Python system to generate social media content with OpenAI GPT and DAL
    uvicorn ai_content_factory.main:app --reload
    ```
 
+### Repository Structure
+
+All source files live under the `ai_content_factory/` package. Keeping the code
+in one directory avoids duplicate modules and simplifies imports.
+
 Send a POST request to `/generate-content` with JSON:
 ```json
 {
