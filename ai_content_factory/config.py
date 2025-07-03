@@ -1,6 +1,16 @@
-import os
+from pydantic import BaseSettings
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-FAL_API_KEY = os.getenv("FAL_API_KEY")
+class Settings(BaseSettings):
+    """Configuration loaded from environment variables."""
+
+    openai_api_key: str
+    telegram_token: str | None = None
+    telegram_chat_id: str | None = None
+    fal_api_key: str | None = None
+
+    class Config:
+        env_prefix = ""
+        env_file = ".env"
+
+def get_settings() -> Settings:
+    return Settings()  # type: ignore[arg-type]

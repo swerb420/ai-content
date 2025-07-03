@@ -1,40 +1,43 @@
-import requests
 import openai
-from config import OPENAI_API_KEY, FAL_API_KEY
+import httpx
+from config import get_settings
 
-openai.api_key = OPENAI_API_KEY
+settings = get_settings()
+openai.api_key = settings.openai_api_key
 
 
-def generate_image(prompt: str) -> str:
-    if OPENAI_API_KEY:
+async def generate_image(prompt: str) -> str | None:
+    if settings.openai_api_key:
         try:
-            response = openai.Image.create(
+            response = await openai.Image.acreate(
                 prompt=prompt,
                 n=1,
-                size="1024x1024"
+                size="1024x1024",
             )
             return response['data'][0]['url']
         except Exception:
             pass
-    if FAL_API_KEY:
-        try:
-            url = "https://api.fal.ai/generate"
-            headers = {"Authorization": f"Bearer {FAL_API_KEY}"}
-            json = {"prompt": prompt}
-            r = requests.post(url, headers=headers, json=json)
-            if r.ok:
-                return r.json().get("url")
-        except requests.RequestException:
-            pass
+    if settings.fal_api_key:
+        url = "https://api.fal.ai/generate"
+        headers = {"Authorization": f"Bearer {settings.fal_api_key}"}
+        json = {"prompt": prompt}
+        async with httpx.AsyncClient() as client:
+            try:
+                r = await client.post(url, headers=headers, json=json)
+                if r.status_code == 200:
+                    return r.json().get("url")
+            except httpx.HTTPError:
+                pass
     return None
 
-def generate_video(prompt: str) -> str:
-    try:
-        url = "https://api.veo.ai/v3/generate"
-        json = {"prompt": prompt}
-        r = requests.post(url, json=json)
-        if r.ok:
-            return r.json().get("url")
-    except requests.RequestException:
-        pass
+async def generate_video(prompt: str) -> str | None:
+    url = "https://api.veo.ai/v3/generate"
+    json = {"prompt": prompt}
+    async with httpx.AsyncClient() as client:
+        try:
+            r = await client.post(url, json=json)
+            if r.status_code == 200:
+                return r.json().get("url")
+        except httpx.HTTPError:
+            pass
     return None

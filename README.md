@@ -1,6 +1,6 @@
 # AI Content Factory
 
-A minimal Python system to generate social media content with OpenAI GPT and DALL·E 3, with fallback to Fal.ai or Veo.
+A minimal Python system to generate social media content with OpenAI GPT and DALL·E 3. Images fall back to Fal.ai and videos can be generated with Veo when available.
 
 ## Quick Start
 
@@ -29,4 +29,11 @@ Send a POST request to `/generate-content` with JSON:
 
 ### Video Generation
 
-Use `generate_video(prompt)` to create a short clip via Veo if available.
+`generate_video(prompt)` asynchronously requests a short clip from Veo.
+
+### New Features
+
+- Fully asynchronous HTTP calls
+- Environment settings loaded via Pydantic
+- Fallback image and video generation endpoints
+- Prompts loaded relative to the package for easy deployment
