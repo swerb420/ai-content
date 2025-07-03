@@ -1,12 +1,15 @@
-import requests
-from config import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
+import httpx
+from .config import get_settings
 
-def send_telegram_message(title: str, message: str) -> None:
-    if not (TELEGRAM_TOKEN and TELEGRAM_CHAT_ID):
+settings = get_settings()
+
+async def send_telegram_message(title: str, message: str) -> None:
+    if not (settings.telegram_token and settings.telegram_chat_id):
         return
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    data = {"chat_id": TELEGRAM_CHAT_ID, "text": f"{title}\n\n{message}"}
-    try:
-        requests.post(url, data=data)
-    except requests.RequestException:
-        pass
+    url = f"https://api.telegram.org/bot{settings.telegram_token}/sendMessage"
+    data = {"chat_id": settings.telegram_chat_id, "text": f"{title}\n\n{message}"}
+    async with httpx.AsyncClient() as client:
+        try:
+            await client.post(url, data=data)
+        except httpx.HTTPError:
+            pass
