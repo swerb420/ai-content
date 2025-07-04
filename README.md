@@ -1,6 +1,5 @@
 # AI Content Factory
 
-A minimal Python system that generates social media content with OpenAI GPT and DALL·E 3. Fallbacks to Fal.ai or Veo ensure reliable imagery and video.
 
 ## Quick Start
 
@@ -23,6 +22,7 @@ A minimal Python system that generates social media content with OpenAI GPT and 
 All source files live under the `ai_content_factory/` package. Keeping the code
 in one directory avoids duplicate modules and simplifies imports.
 
+
 Send a POST request to `/generate-content` with JSON:
 ```json
 {
@@ -43,6 +43,7 @@ Send a POST request to `/generate-content` with JSON:
 - Fallback image and video generation endpoints
 - Prompts loaded relative to the package for easy deployment
 
+
 ## Advanced Pipeline
 
 This project includes optional modules for a complete video pipeline using Google Veo 3 and InVideo AI. The main steps are:
@@ -58,3 +59,4 @@ Run the CLI with Typer:
 ```bash
 python -m ai_content_factory.cli generate-content "Awesome video idea"
 ```
+=======
