@@ -59,4 +59,3 @@ Run the CLI with Typer:
 ```bash
 python -m ai_content_factory.cli generate-content "Awesome video idea"
 ```
-=======
